@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-import { login } from "../api";
 import { saveAuth } from "../utils/auth";
+import { register } from "../api";
 
 const FEATURES = [
   "Reservations",
@@ -13,20 +12,27 @@ const FEATURES = [
   "Guest Services",
 ];
 
-export default function Login() {
+export default function Register() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("admin@forgequantum.com");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
     setLoading(true);
     try {
-      const data = await login({ email, password });
+      const data = await register({ name, email, password });
       saveAuth({ token: data.token, user: data.user });
       navigate("/dashboard", { replace: true });
     } catch (err) {
@@ -95,7 +101,7 @@ export default function Login() {
           {/* Card head */}
           <div className="mb-6 flex items-center justify-between">
             <h3 className="font-serif text-2xl font-bold text-white">
-              Sign In
+              Create Account
             </h3>
             <span className="flex items-center gap-1.5 font-mono text-xs text-green-400">
               <span className="h-2 w-2 rounded-full bg-green-400 shadow-[0_0_8px_#4ade80]" />
@@ -110,6 +116,21 @@ export default function Login() {
           )}
 
           <form onSubmit={handleSubmit} className="flex flex-col">
+            <label className="mb-2 font-mono text-[11px] uppercase tracking-[0.16em] text-white/70">
+              Full Name
+            </label>
+            <div className="mb-4 flex items-center gap-2.5 rounded-lg border border-white/15 bg-black/25 px-3.5 transition focus-within:border-gold focus-within:bg-black/35">
+              <MailIcon />
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                autoComplete="name"
+                required
+                className="flex-1 bg-transparent py-3 text-[15px] text-white outline-none placeholder:text-white/40"
+                placeholder="John Doe"
+              />
+            </div>
             {/* Email */}
             <label className="mb-2 font-mono text-[11px] uppercase tracking-[0.16em] text-white/70">
               Email Address
@@ -137,7 +158,7 @@ export default function Login() {
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                autoComplete="current-password"
+                autoComplete="new-password"
                 required
                 className="flex-1 bg-transparent py-3 text-[15px] text-white outline-none placeholder:text-white/40"
                 placeholder="••••••••••••"
@@ -151,22 +172,45 @@ export default function Login() {
                 <EyeIcon open={showPassword} />
               </button>
             </div>
+            <label className="mb-2 font-mono text-[11px] uppercase tracking-[0.16em] text-white/70">
+              confirm Password
+            </label>
+            <div className="mb-6 flex items-center gap-2.5 rounded-lg border border-white/15 bg-black/25 px-3.5 transition focus-within:border-gold focus-within:bg-black/35">
+              <LockIcon />
+              <input
+                type={showConfirm ? "text" : "password"}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                autoComplete="new-password"
+                required
+                className="flex-1 bg-transparent py-3 text-[15px] text-white outline-none placeholder:text-white/40"
+                placeholder="••••••••••••"
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirm((v) => !v)}
+                className="flex text-white/45 transition hover:text-gold-light"
+                aria-label={showConfirm ? "Hide password" : "Show password"}
+              >
+                <EyeIcon open={showConfirm} />
+              </button>
+            </div>
 
             <button
               type="submit"
               disabled={loading}
               className="mt-2 rounded-lg bg-gradient-to-br from-gold-light to-gold py-3.5 font-mono text-sm font-semibold uppercase tracking-[0.18em] text-[#1a160c] transition hover:brightness-105 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-65"
             >
-              {loading ? "Signing In…" : "Sign In"}
+              {loading ? "Creating Account" : " Create Account "}
             </button>
           </form>
           <p className="mt-6 text-center font-mono text-[13px] text-white/50">
-            Dont have Account ?.{" "}
+            Already have an account ?.{" "}
             <Link
-              to="/register"
+              to="/login"
               className="text-gold underline-offset-2 hover:underline"
             >
-              Create One
+              Sign In
             </Link>
           </p>
         </div>
