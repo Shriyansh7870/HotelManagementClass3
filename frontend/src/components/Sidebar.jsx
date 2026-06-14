@@ -1,10 +1,8 @@
+import { NavLink } from "react-router-dom";
+
 const NAV = [
-  { label: "Dashboard", href: "/" },
-  { label: "Documents", href: "/documents" },
-  { label: "CAPA", href: "/capa" },
-  { label: "Risk", href: "/risk" },
-  { label: "Training", href: "/training" },
-  { label: "Audits", href: "/audits" },
+  { label: "Dashboard", to: "/dashboard", icon: "🏠" },
+  { label: "Check-In", to: "/check-in", icon: "🧳" },
 ];
 
 export default function Sidebar() {
@@ -12,13 +10,20 @@ export default function Sidebar() {
     <aside className="w-56 shrink-0 bg-gray-900 p-3 text-gray-300">
       <nav className="flex flex-col gap-1">
         {NAV.map((item) => (
-          <a
-            key={item.href}
-            href={item.href}
-            className="rounded-lg px-3.5 py-2.5 text-[15px] transition hover:bg-white/10 hover:text-white"
+          <NavLink
+            key={item.to}
+            to={item.to}
+            className={({ isActive }) =>
+              `flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-[15px] transition ${
+                isActive
+                  ? "bg-white/10 text-white"
+                  : "hover:bg-white/10 hover:text-white"
+              }`
+            }
           >
+            <span>{item.icon}</span>
             {item.label}
-          </a>
+          </NavLink>
         ))}
       </nav>
     </aside>

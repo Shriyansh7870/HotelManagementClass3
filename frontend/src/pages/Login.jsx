@@ -138,7 +138,6 @@ export default function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
-                required
                 className="flex-1 bg-transparent py-3 text-[15px] text-white outline-none placeholder:text-white/40"
                 placeholder="••••••••••••"
               />

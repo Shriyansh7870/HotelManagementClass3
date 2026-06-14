@@ -4,6 +4,7 @@ import cors from "cors";
 
 import connectDB from "./src/config/db.js";
 import authRoute from "./src/routes/auth.js";
+import checinRoute from "./src/routes/checkin.js";
 import { errorHandler, notFound } from "./src/middleWare/errorMiddleware.js";
 
 dotenv.config();
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRoute);
+app.use("/api/checkins", checinRoute);
 
 // 404 + error handlers (must come last)
 app.use(notFound);

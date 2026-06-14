@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import DashboardLayout from "../layouts/DashboardLayout";
 import { getUser } from "../utils/auth";
 
@@ -13,11 +15,19 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">
-          Welcome back{user?.name ? `, ${user.name}` : ""} 👋
-        </h1>
-        <p className="text-gray-500">Here's what's happening at your hotel today.</p>
+      <div className="mb-6 flex items-start justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-800">
+            Welcome back{user?.name ? `, ${user.name}` : ""} 👋
+          </h1>
+          <p className="text-gray-500">Here's what's happening at your hotel today.</p>
+        </div>
+        <Link
+          to="/check-in"
+          className="rounded-lg bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-gray-800"
+        >
+          + New Check-In
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">

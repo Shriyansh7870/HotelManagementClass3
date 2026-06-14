@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import Dashboard from "./pages/Dashboard";
+import CheckIn from "./pages/CheckIn";
 import Login from "./pages/Login";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Register from "./pages/Register";
@@ -15,6 +16,14 @@ function App() {
         element={
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/check-in"
+        element={
+          <ProtectedRoute>
+            <CheckIn />
           </ProtectedRoute>
         }
       />
