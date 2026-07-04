@@ -5,6 +5,7 @@ import CheckIn from "./pages/CheckIn";
 import Login from "./pages/Login";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Register from "./pages/Register";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -24,6 +25,14 @@ function App() {
         element={
           <ProtectedRoute>
             <CheckIn />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/settings"
+        element={
+          <ProtectedRoute>
+            <Settings />
           </ProtectedRoute>
         }
       />

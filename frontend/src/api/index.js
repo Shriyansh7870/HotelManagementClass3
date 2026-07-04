@@ -2,3 +2,4 @@
 export { apiRequest } from "./client";
 export * from "./auth";
 export * from "./Checkin";
+export * from "./settings";
