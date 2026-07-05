@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Register from "./pages/Register";
 import Settings from "./pages/Settings";
+import Housekeeping from "./pages/housekeeping";
 
 function App() {
   return (
@@ -38,6 +39,17 @@ function App() {
       />
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
       <Route path="*" element={<Navigate to="/login" replace />} />
+
+      <Route
+        path="/housekeeping"
+        element={
+          <ProtectedRoute>
+            <div className="p-4">
+              <Housekeeping />
+            </div>
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }

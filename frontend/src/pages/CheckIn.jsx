@@ -5,6 +5,7 @@ import {
   createCheckin,
   deleteCheckin,
   checkoutGuest,
+  getRooms,
 } from "../api";
 
 const EMPTY_FORM = {
@@ -31,11 +32,13 @@ export default function CheckIn() {
   const [form, setForm] = useState(EMPTY_FORM);
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
+  const [availableRooms, setAvailableRooms] = useState([]);
   const [error, setError] = useState("");
 
   // Fetch all check-ins on mount
   useEffect(() => {
     fetchCheckins();
+    fetchAvailableRooms();
   }, []);
 
   async function fetchCheckins() {
@@ -101,6 +104,16 @@ export default function CheckIn() {
     });
   }
 
+  async function fetchAvailableRooms() {
+    try {
+      const data = await getRooms();
+      const rooms = data.data || [];
+      const available = rooms.filter((room) => room.status === "available");
+      setAvailableRooms(available);
+    } catch (err) {
+      setError(err.message);
+    }
+  }
   return (
     <DashboardLayout>
       {/* Header */}
@@ -204,16 +217,35 @@ export default function CheckIn() {
                 <label className="mb-1 block font-mono text-[11px] uppercase tracking-wider text-gray-500">
                   Room Number
                 </label>
-                <input
-                  type="text"
-                  name="roomNumber"
-                  value={form.roomNumber}
-                  onChange={handleChange}
-                  required
-                  className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-[14px] text-gray-800 outline-none transition focus:border-amber-400 focus:ring-1 focus:ring-amber-400"
-                  placeholder="101"
-                />
+                {availableRooms.length > 0 ? (
+                  <select
+                    name="roomNumber"
+                    value={form.roomNumber}
+                    onChange={handleChange}
+                    required
+                    className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-[14px] text-gray-800 outline-none transition focus:border-amber-400 focus:ring-1 focus:ring-amber-400"
+                  >
+                    <option value="">Select a room</option>
+                    {availableRooms.map((room) => (
+                      <option key={room._id} value={room.roomNumber}>
+                        {room.roomNumber}-{room.type} ({room.pricePerNight}
+                        /night);
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    type="text"
+                    name="roomNumber"
+                    value={form.roomNumber}
+                    onChange={handleChange}
+                    required
+                    className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-[14px] text-gray-800 outline-none transition focus:border-amber-400 focus:ring-1 focus:ring-amber-400"
+                    placeholder="Enter room number"
+                  />
+                )}
               </div>
+
               {/* Number of Guests */}
               <div>
                 <label className="mb-1 block font-mono text-[11px] uppercase tracking-wider text-gray-500">
