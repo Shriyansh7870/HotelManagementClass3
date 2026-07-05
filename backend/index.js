@@ -6,6 +6,7 @@ import connectDB from "./src/config/db.js";
 import authRoute from "./src/routes/auth.js";
 import checinRoute from "./src/routes/checkin.js";
 import settingRoute from "./src/routes/settings.js";
+import housekeepingRoute from "./src/routes/housekeeping.js";
 import { errorHandler, notFound } from "./src/middleWare/errorMiddleware.js";
 
 dotenv.config();
@@ -26,6 +27,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoute);
 app.use("/api/checkins", checinRoute);
 app.use("/api/settings", settingRoute);
+app.use("/api/housekeeping", housekeepingRoute);
 
 // 404 + error handlers (must come last)
 app.use(notFound);
