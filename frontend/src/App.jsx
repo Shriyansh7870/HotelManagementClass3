@@ -7,6 +7,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import Register from "./pages/Register";
 import Settings from "./pages/Settings";
 import Housekeeping from "./pages/housekeeping";
+import FoodOrder from "./pages/FoodOrder";
 
 function App() {
   return (
@@ -44,8 +45,18 @@ function App() {
         path="/housekeeping"
         element={
           <ProtectedRoute>
-            <div className="p-4">
+            <div className="">
               <Housekeeping />
+            </div>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/food-orders"
+        element={
+          <ProtectedRoute>
+            <div className="">
+              <FoodOrder />
             </div>
           </ProtectedRoute>
         }
