@@ -8,6 +8,7 @@ import checinRoute from "./src/routes/checkin.js";
 import settingRoute from "./src/routes/settings.js";
 import housekeepingRoute from "./src/routes/housekeeping.js";
 import { errorHandler, notFound } from "./src/middleWare/errorMiddleware.js";
+import foodOrdersRoute from "./src/routes/foodOrders.js"; // Import the food orders route
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/checkins", checinRoute);
 app.use("/api/settings", settingRoute);
 app.use("/api/housekeeping", housekeepingRoute);
+app.use("/api/food-orders", foodOrdersRoute); // Add this line to include the food orders route
 
 // 404 + error handlers (must come last)
 app.use(notFound);

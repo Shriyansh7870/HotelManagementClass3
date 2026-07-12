@@ -1,4 +1,5 @@
 import Checkin from "../models/Checkin.js";
+import Room from "../models/room.js";
 
 export const createCheckin = async (req, res, next) => {
   try {
@@ -113,3 +114,61 @@ export const updateCheckin = async (req, res, next) => {
     next(err);
   }
 };
+
+// export const getCheckoutSummary = async (req, res, next) => {
+//   try {
+//     const checkins = await Checkin.findById(req.params.id);
+//     if (!checkins) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Check-in not found",
+//       });
+//     }
+//     const room = await Room.findByOne({
+//       roomNumber: checkins.roomNumber,
+//     }).lean();
+//     const pricePerNight = room.pricePerNight;
+//     const nights = Math.max(
+//       1,
+//       Math.ceil(
+//         (new Date(checkins.checkOutDate) - new Date(checkins.checkInDate)) /
+//           (1000 * 60 * 60 * 24)
+//       )
+//     );
+//     const roomCharges = pricePerNight * nights;
+//     const foodOrders = await FoodOrder.find({
+//       roomNumber: checkin.roomNumber,
+//       status: { $ne: "cancelled" },
+//       createdAt: { $gte: checkins.checkInDate, $lte: checkins.checkOutDate },
+//     }).lean();
+
+//     const totalFoodCharges = foodOrders.reduce(
+//       (total, order) => total + order.totalPrice,
+//       0
+//     );
+//     const hotel = await Hotel.findById(room.hotelId).lean();
+//     const taxRate = hotel.taxRate || 0;
+//     const taxAmount = (roomCharges + totalFoodCharges) * (taxRate / 100);
+//     const totalAmount = roomCharges + totalFoodCharges + taxAmount;
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "Checkout summary retrieved successfully",
+//       summary: {
+//         checkin,
+//         roomType: room.roomType,
+//         pricePerNight,
+//         nights,
+//         roomCharges,
+//         foodOrdersCount: foodOrders.length,
+//         totalFoodCharges,
+//         taxRate,
+//         taxAmount,
+//         totalAmount,
+//         grandTotal,
+//       },
+//     });
+//   } catch (err) {
+//     next(err);
+//   }
+// };
